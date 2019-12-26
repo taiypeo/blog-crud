@@ -11,13 +11,17 @@
         {{ form.hidden_tag() }}
 
         {{ form.title.label }}<br/>
-        {{ form.title }}<br/>
+        {% if post %}
+            {{ form.title(value=post.title) }}<br/>
+        {% else %}
+            {{ form.title() }}<br/>
+        {% endif %}
         {{ error_macro.print_errors(form.title) }}<br/>
 
         {% if post %}
             {% set f = form.markdown.process_data(post.markdown) %}
         {% endif %}
-        
+
         {{ form.markdown.label }}<br/>
         {{ form.markdown }}<br/>
         {{ error_macro.print_errors(form.markdown) }}<br/>

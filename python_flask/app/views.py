@@ -158,3 +158,35 @@ def new_post():
                 flash("Unknown database error has occurred.")
 
     return render_template("edit.html", title="Creating a new post", form=form)
+
+
+@app.route("/edit/<post_id>", methods=["GET", "POST"])
+@login_required
+def edit(post_id: int):
+    try:
+        post_id = int(post_id)
+    except ValueError:
+        abort(404)
+
+    post = BlogPost.query.get(post_id)
+
+    form = EditForm()
+    if form.validate_on_submit():
+        try:
+            post.title = form.title.data
+            post.markdown = form.markdown.data
+
+            db.session.commit()
+
+            return redirect(url_for("index"))
+        except DatabaseError:
+            db.session.rollback()
+
+            if BlogPost.query.filter_by(title=form.title.data).first() is not None:
+                flash("Post with this title already exists.")
+            else:
+                flash("Unknown database error has occurred.")
+
+    return render_template(
+        "edit.html", title="Creating a new post", form=form, post=post
+    )
