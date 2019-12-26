@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
-    posts = db.relationship("BlogPost", back_populates="creator")
+    posts = db.relationship("BlogPost", back_populates="creator", lazy="dynamic")
 
     def set_password(self, pwd):
         sha = base64.b64encode(
