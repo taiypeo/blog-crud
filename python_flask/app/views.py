@@ -15,5 +15,17 @@ def index_paged(page: int):
         page = int(page)
     except ValueError:
         abort(404)
-    posts = BlogPost.query.order_by(BlogPost.date_created.desc()).paginate(page=page).items
-    return render_template("posts.html", title="My blog website", posts=posts)
+
+    pagination = BlogPost.query.order_by(BlogPost.date_created.desc()).paginate(
+        page=page
+    )
+    posts = pagination.items
+    total_pages = pagination.pages
+    return render_template(
+        "posts.html",
+        title="My blog website",
+        posts=posts,
+        current_page=page,
+        total_pages=total_pages,
+        # pagination_target=url_for("index_paged"),
+    )

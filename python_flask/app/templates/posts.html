@@ -7,4 +7,38 @@
         <span style="color: gray; display: inline-block; margin-bottom: 1em;">Author: {{ post.creator.username }}</span>
         <div class="markdown" style="padding: 3px; border: 1px solid black; margin-bottom: 3em;">{{ post.markdown }}</div>
     {% endfor %}
+    
+    {% set PAGINATION_PAGES = 9 %}
+    {% set start_page = current_page - PAGINATION_PAGES // 2 %}
+    {% set end_page = current_page + PAGINATION_PAGES // 2 %}
+
+    {% if start_page < 1 and end_page > total_pages %}
+        {% set start_page = 1 %}
+        {% set end_page = total_pages %}
+    {% elif start_page < 1 %}
+        {% set start_page = 1 %}
+        {% set end_page = PAGINATION_PAGES %}
+    {% elif end_page > total_pages %}
+        {% set start_page = total_pages - PAGINATION_PAGES + 1 %}
+        {% set end_page = total_pages %}
+    {% endif %}
+
+    
+    {% if current_page != 1 %}
+        <a href="#"><<</a>
+        <a href="#"><</a>
+    {% endif %}
+
+    {% for page in range(start_page, end_page + 1) %}
+        {% if page == current_page %}
+            <a href="#"><strong>{{ page }}</strong></a>
+        {% else %}
+            <a href="#">{{ page }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if current_page != total_pages %}
+        <a href="#">></a>
+        <a href="#">>></a>
+    {% endif %}
 {% endblock %}

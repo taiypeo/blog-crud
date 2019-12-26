@@ -65,7 +65,7 @@ BlogPost.query.delete()
 
 for user in [u1, u2, u3]:
     db.session.add(user)
-for i in range(1, 30):
+for i in range(1, 300):
     post = BlogPost(title=f"Post #{i}", creator=u2, markdown=f"This is post *#{i}*.")
     db.session.add(post)
 for post in [post1, post2, post3, post4]:
