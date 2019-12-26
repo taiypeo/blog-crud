@@ -15,4 +15,4 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
-from . import views
+from . import views, models
