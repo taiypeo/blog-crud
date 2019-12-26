@@ -1,7 +1,9 @@
-from . import app
+from . import app, db
 from .models import BlogPost, User
+from .forms import RegistrationForm
 
-from flask import render_template, abort, redirect, url_for, request
+from flask import render_template, abort, redirect, url_for, request, flash
+from sqlalchemy.exc import DatabaseError
 
 
 @app.route("/")
@@ -57,3 +59,25 @@ def user(id: int):
         pagination_target="user",
         url_kwargs={"id": id},
     )
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        try:
+            user = User(username=form.username.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+
+            return redirect(url_for("index"))
+        except DatabaseError:
+            db.session.rollback()
+
+            if User.query.filter_by(username=form.username.data):
+                flash("User with this username already exists.")
+            else:
+                flash("Unknown database error has occurred.")
+
+    return render_template("register.html", form=form)

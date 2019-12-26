@@ -10,7 +10,7 @@ import hashlib
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), index=True, unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(150), nullable=False)
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
     posts = db.relationship("BlogPost", back_populates="creator", lazy="dynamic")

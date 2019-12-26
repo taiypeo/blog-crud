@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Register</h2>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.username.label }}<br/>
+        {{ form.username }}<br/>
+        {{ error_macro.print_errors(form.username) }}<br/>
+
+        {{ form.password.label }}<br/>
+        {{ form.password }}<br/>
+        {{ error_macro.print_errors(form.password) }}<br/>
+
+        {{ form.confirm_password.label }}<br/>
+        {{ form.confirm_password }}<br/>
+        {{ error_macro.print_errors(form.confirm_password) }}<br/>
+
+        {{ error_macro.print_flashes() }}<br/>
+
+        {{ form.submit }}
+    </form>
+{% endblock %}

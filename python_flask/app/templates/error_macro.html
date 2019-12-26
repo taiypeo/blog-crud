@@ -1,0 +1,19 @@
+{% macro print_errors(field) -%}
+    <small style="color: red;">
+        {% for err in field.errors %}
+            [ {{ err }} ]&nbsp;
+        {% endfor %}
+    </small>
+{%- endmacro %}
+
+{% macro print_flashes() -%}
+    <small style="color: red;">
+        {% with flashes = get_flashed_messages() %}
+            {% if flashes %}
+                {% for message in flashes %}
+                    [ {{ message }} ]&nbsp;
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </small>
+{%- endmacro %}
