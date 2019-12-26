@@ -49,7 +49,8 @@ def user(id: int):
 
     return render_template(
         "posts.html",
-        title=f"{user.username}'s posts'",
+        title=f"{user.username}'s posts",
+        top_text=f"{user.username}'s posts",
         posts=posts,
         current_page=page,
         total_pages=total_pages,

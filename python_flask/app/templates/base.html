@@ -4,7 +4,8 @@
         <title>{{ title }}</title>
     </head>
     <body>
-        <h1>My blog website</h1>
+        <h1><a href="{{ url_for("index") }}">My blog website</a></h1>
+        <hr/>
 
         {% block content %}{% endblock %}
 
