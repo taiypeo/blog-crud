@@ -8,7 +8,7 @@
     {% for post in posts %}
         <h3>{{ post.title }}</h3>
         <span style="color: gray; display: inline-block; margin-bottom: 1em;">Created: {{ post.date_created }}</span><br/>
-        <span style="color: gray; display: inline-block; margin-bottom: 1em;">Author: {{ post.creator.username }}</span>
+        <span style="color: gray; display: inline-block; margin-bottom: 1em;">Author: <a href="{{ url_for("user", id=post.creator.id) }}">{{ post.creator.username }}</a></span>
         <div class="markdown" style="padding: 3px; border: 1px solid black; margin-bottom: 3em;">{{ post.markdown }}</div>
     {% endfor %}
     
