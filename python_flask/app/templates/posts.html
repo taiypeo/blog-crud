@@ -13,7 +13,7 @@
 
         {% if current_user == post.creator or current_user.is_admin %}
             <br/>
-            <a style="display: inline-block; margin-bottom: 1em;" href="{{ url_for("remove_post", post_id=post.id) }}">Remove</a>
+            <a style="display: inline-block; margin-bottom: 1em;" href="{{ url_for("remove_post", post_id=post.id, next=request.full_path) }}">Remove</a>
         {% endif %}
 
         <div class="markdown" style="padding: 3px; border: 1px solid black; margin-bottom: 3em;">{{ post.markdown }}</div>
