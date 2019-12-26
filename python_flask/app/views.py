@@ -27,5 +27,5 @@ def index_paged(page: int):
         posts=posts,
         current_page=page,
         total_pages=total_pages,
-        # pagination_target=url_for("index_paged"),
+        pagination_target="index_paged",
     )

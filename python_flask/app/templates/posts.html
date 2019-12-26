@@ -25,20 +25,20 @@
 
     
     {% if current_page != 1 %}
-        <a href="#"><<</a>
-        <a href="#"><</a>
+        <a href="{{ url_for(pagination_target, page=1) }}"><<</a>
+        <a href="{{ url_for(pagination_target, page=current_page-1) }}"><</a>
     {% endif %}
 
     {% for page in range(start_page, end_page + 1) %}
         {% if page == current_page %}
-            <a href="#"><strong>{{ page }}</strong></a>
+            <a href="{{ url_for(pagination_target, page=page) }}"><strong>{{ page }}</strong></a>
         {% else %}
-            <a href="#">{{ page }}</a>
+            <a href="{{ url_for(pagination_target, page=page) }}">{{ page }}</a>
         {% endif %}
     {% endfor %}
 
     {% if current_page != total_pages %}
-        <a href="#">></a>
-        <a href="#">>></a>
+        <a href="{{ url_for(pagination_target, page=current_page+1) }}">></a>
+        <a href="{{ url_for(pagination_target, page=total_pages) }}">>></a>
     {% endif %}
 {% endblock %}
