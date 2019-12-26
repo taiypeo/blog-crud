@@ -81,7 +81,7 @@ def register():
             else:
                 flash("Unknown database error has occurred.")
 
-    return render_template("register.html", form=form)
+    return render_template("register.html", title="Register", form=form)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -97,7 +97,7 @@ def login():
             login_user(user, remember=form.remember.data)
             return redirect(url_for("index"))
 
-    return render_template("login.html", form=form)
+    return render_template("login.html", title="Log in", form=form)
 
 
 @app.route("/logout")
