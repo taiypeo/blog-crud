@@ -1,7 +1,7 @@
 from . import app, db
 from .is_safe import is_safe
 from .models import BlogPost, User
-from .forms import RegistrationForm, LoginForm
+from .forms import RegistrationForm, LoginForm, EditForm
 
 from flask import render_template, abort, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
@@ -132,4 +132,29 @@ def remove_post(post_id: int):
 
         return redirect(next_url)
     except DatabaseError:
+        db.session.rollback()
         abort(500)
+
+
+@app.route("/new_post", methods=["GET", "POST"])
+@login_required
+def new_post():
+    form = EditForm()
+    if form.validate_on_submit():
+        try:
+            post = BlogPost(
+                title=form.title.data, markdown=form.markdown.data, creator=current_user
+            )
+            db.session.add(post)
+            db.session.commit()
+
+            return redirect(url_for("index"))
+        except DatabaseError:
+            db.session.rollback()
+
+            if BlogPost.query.filter_by(title=form.title.data).first() is not None:
+                flash("Post with this title already exists.")
+            else:
+                flash("Unknown database error has occurred.")
+
+    return render_template("edit.html", title="Creating a new post", form=form)

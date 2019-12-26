@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, TextAreaField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo
 
 
@@ -26,3 +26,9 @@ class LoginForm(FlaskForm):
     )
     remember = BooleanField(label="Remember me")
     submit = SubmitField(label="Log in")
+
+
+class EditForm(FlaskForm):
+    title = StringField(label="Title", validators=[DataRequired(), Length(max=120)])
+    markdown = TextAreaField(label="Markdown", validators=[DataRequired()])
+    submit = SubmitField(label="Save")
