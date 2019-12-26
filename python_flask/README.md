@@ -16,3 +16,9 @@ source tools/mock.sh
 ```
 python main.py
 ```
+
+# Generating a new secret key
+```
+cd tools
+python generate_secret_key.py
+```
