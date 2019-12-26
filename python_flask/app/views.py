@@ -169,6 +169,10 @@ def edit(post_id: int):
         abort(404)
 
     post = BlogPost.query.get(post_id)
+    if post is None:
+        abort(404)
+    elif post.creator != current_user and not current_user.is_admin:
+        abort(403)
 
     form = EditForm()
     if form.validate_on_submit():
