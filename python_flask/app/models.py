@@ -31,7 +31,7 @@ class User(db.Model, UserMixin):
 
 @login_manager.user_loader
 def loader(user_id):
-    return User.get(user_id)
+    return User.query.get(user_id)
 
 
 class BlogPost(db.Model):

@@ -1,8 +1,9 @@
 from . import app, db
 from .models import BlogPost, User
-from .forms import RegistrationForm
+from .forms import RegistrationForm, LoginForm
 
 from flask import render_template, abort, redirect, url_for, request, flash
+from flask_login import login_user, logout_user
 from sqlalchemy.exc import DatabaseError
 
 
@@ -81,3 +82,25 @@ def register():
                 flash("Unknown database error has occurred.")
 
     return render_template("register.html", form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None:
+            flash("User with this username does not exist.")
+        elif not user.check_password(form.password.data):
+            flash("Incorrect password.")
+        else:
+            login_user(user, remember=form.remember.data)
+            return redirect(url_for("index"))
+
+    return render_template("login.html", form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
