@@ -7,8 +7,15 @@
 
     {% for post in posts %}
         <h3>{{ post.title }}</h3>
-        <span style="color: gray; display: inline-block; margin-bottom: 1em;">Created: {{ post.date_created }}</span><br/>
+        
+        <span style="color: gray;">Created: {{ post.date_created }}</span><br/>
         <span style="color: gray; display: inline-block; margin-bottom: 1em;">Author: <a href="{{ url_for("user", id=post.creator.id) }}">{{ post.creator.username }}</a></span>
+
+        {% if current_user == post.creator or current_user.is_admin %}
+            <br/>
+            <a style="display: inline-block; margin-bottom: 1em;" href="{{ url_for("remove_post", post_id=post.id) }}">Remove</a>
+        {% endif %}
+
         <div class="markdown" style="padding: 3px; border: 1px solid black; margin-bottom: 3em;">{{ post.markdown }}</div>
     {% endfor %}
     

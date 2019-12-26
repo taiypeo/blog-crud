@@ -3,7 +3,7 @@ from .models import BlogPost, User
 from .forms import RegistrationForm, LoginForm
 
 from flask import render_template, abort, redirect, url_for, request, flash
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy.exc import DatabaseError
 
 
@@ -104,3 +104,27 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+
+@app.route("/remove/<post_id>")
+@login_required
+def remove_post(post_id: int):
+    try:
+        post_id = int(post_id)
+    except ValueError:
+        abort(404)
+    
+    post = BlogPost.query.get(post_id)
+    if post is None:
+        abort(404)
+    elif post.creator != current_user and not current_user.is_admin:
+        abort(403)
+    
+    try:
+        db.session.delete(post)
+        db.session.commit()
+
+        return redirect(url_for("index"))
+    except DatabaseError:
+        abort(500)
+
