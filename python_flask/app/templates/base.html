@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+    </head>
+    <body>
+        <h1>My blog website</h1>
+        
+        {% block content %}{% endblock %}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/10.0.0/markdown-it.min.js"></script>
+        <script>
+            const md = window.markdownit();
+            const markdowns = document.getElementsByClassName("markdown");
+            for (markdown of markdowns) {
+                const result = md.render(markdown.textContent);
+                markdown.textContent = "";
+                markdown.innerHTML = result;
+            }
+        </script>
+    </body>
+</html>

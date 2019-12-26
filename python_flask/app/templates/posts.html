@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <span style="color: gray; display: inline-block; margin-bottom: 1em;">Created: {{ post.date_created }}</span><br/>
+        <span style="color: gray; display: inline-block; margin-bottom: 1em;">Author: {{ post.creator.username }}</span>
+        <div class="markdown" style="padding: 3px; border: 1px solid black; margin-bottom: 3em;">{{ post.markdown }}</div>
+    {% endfor %}
+{% endblock %}

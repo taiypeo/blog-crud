@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), index=True, unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
     posts = db.relationship("BlogPost", back_populates="creator")
 
@@ -19,7 +20,7 @@ class User(db.Model, UserMixin):
             hashlib.sha256(pwd.encode()).digest()
         )  # max bcrypt password length is 72 chars, so we can hash the password with a different algorithm first
         self.password = bcrypt.hashpw(sha, bcrypt.gensalt())
-    
+
     def check_password(self, pwd):
         sha = base64.b64encode(hashlib.sha256(pwd.encode()).digest())
         return bcrypt.checkpw(sha, self.password)
