@@ -7,6 +7,10 @@
     </head>
     <body>
         <h1><a href="{{ url_for("index") }}">My blog website</a></h1>
+        
+        {% if current_user.is_authenticated %}
+            <span>Currently logged in as: {{ current_user.username }}</span><br/>
+        {% endif %}
         <hr/>
 
         {% block content %}{% endblock %}
